@@ -16,6 +16,11 @@ using namespace std;
 */
 int generarAleatorio(int rango);
 
+/**
+* Revisa si el arreglo contiene cierto
+*/
+bool contiene();
+
 void ordenar(int size, int arreglo[], bool ascendente) {
 	for(int i = 0; i < size; i++) {
 		for(int j = i + 1; j < size; j++) {
@@ -67,12 +72,25 @@ int busquedaBinaria(int size, int arreglo[], int buscado) {
 	return -1;
 }
 
-int darAleatorios(int size, int arreglo[], int n) {
-	for(int i = 0; i < n; i++) {
-		cout << generarAleatorio(size) << endl;
+char* darAleatorios(int size, int arreglo[], int n) {
+	
+	int* repetidos = new int[size];
 		
+	if (n < size) {
+		
+		for(int i = 0; i < n; i++) {
+			
+		}
+
 	}
-	return 0;
+	else {
+		cout << "'n' no puede ser mayor a la longitud del arreglo" << endl;
+		return NULL;
+	}	
+}
+
+bool contiene() {
+	
 }
 
 int generarAleatorio(int rango) {

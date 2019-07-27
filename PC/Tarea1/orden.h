@@ -4,6 +4,9 @@
 
 #ifndef ORDEN_H_
 #define ORDEN_H_
+#include <stdbool.h> 
+#include <stdio.h>
+#include "string.h"
 
 /**
 * Ordena un arreglo en orden ascendente o descendente
@@ -37,14 +40,15 @@ int busquedaLineal(int size, int arreglo[], int buscado);
 int busquedaBinaria(int size, int arreglo[], int buscado);
 
 /**
-* Retorna un arreglo de n números aleatorios tomados de un arreglo. Los números aleatorios no son repetidos
+* Retorna un arreglo de n números aleatorios tomados de un arreglo. Los números aleatorios no son repetidos por lo que se requiere
+* un arreglo sin numeros repetidos como entrada para garantizar el funcionamiento adecuado del metodo
 * Entradas:
 *	size: tamaño del arreglo
 * 	arreglo: arreglo de donde se toman los números
 *	n: cantidad de números a tomar del arreglo
 * Salidas:
-*	retorna un arreglo con n elementos aleatorios sacados del arreglo original
+*	retorna una cadena con n elementos aleatorios sacados del arreglo original
 */
-int darAleatorios(int size, int arreglo[], int n);
+char* darAleatorios(int size, int arreglo[], int n);
 
 #endif
