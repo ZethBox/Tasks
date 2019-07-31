@@ -6,8 +6,7 @@
 #define ORDEN_H_
 #include <stdbool.h> 
 #include <stdio.h>
-#include "string.h"
-
+#include <string.h>
 /**
 * Ordena un arreglo en orden ascendente o descendente
 * Entradas:
@@ -40,15 +39,17 @@ int busquedaLineal(int size, int arreglo[], int buscado);
 int busquedaBinaria(int size, int arreglo[], int buscado);
 
 /**
-* Retorna un arreglo de n números aleatorios tomados de un arreglo. Los números aleatorios no son repetidos por lo que se requiere
-* un arreglo sin numeros repetidos como entrada para garantizar el funcionamiento adecuado del metodo
+* Retorna una cadena con n números aleatorios sin repeticion tomados de un arreglo. Ya que los numeros aleatorios generados 
+* no pueden ser repetidos, el arreglo debe tener n o mas numeros no repetidos para que funcione.
 * Entradas:
 *	size: tamaño del arreglo
 * 	arreglo: arreglo de donde se toman los números
 *	n: cantidad de números a tomar del arreglo
 * Salidas:
-*	retorna una cadena con n elementos aleatorios sacados del arreglo original
+*	retorna una cadena con n elementos aleatorios sacados del arreglo original.
+*	si n es mayor a la cantidad de elementos del arreglo o si no hay suficientes numeros no repetidos en el arreglo, la
+* 	funcion retorna NULL.
 */
-char* darAleatorios(int size, int arreglo[], int n);
+std::string darAleatorios(int size, int arreglo[], int n);
 
 #endif
