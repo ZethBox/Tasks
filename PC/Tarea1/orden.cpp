@@ -6,6 +6,8 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
+#include <sstream>
+#include <string>
 #include "orden.h"
 using namespace std;
 
@@ -96,6 +98,7 @@ string darAleatorios(int size, int arreglo[], int n) {
 	int* repetidos = new int[size];
 	
 	string retorno; 
+	stringstream ss;
 		
 	int aleatorio;
 	//Longitud del arreglo de no repetidos
@@ -113,8 +116,9 @@ string darAleatorios(int size, int arreglo[], int n) {
 			}
 		}
 		for(int i = 0; i < repTam; i++) {
-			retorno += std::to_string(repetidos[i]);
+			ss << repetidos[i] << " ";
 		}
+		return ss.str();
 	}
 	else {
 		cout << "No hay suficientes numeros no repetidos en el arreglo para generar " << n << " numeros aleatorios. Numeros no repetidos: " << repTam << endl;
@@ -145,7 +149,7 @@ bool contains(int size, int arreglo[], int buscado) {
 }
 
 int generarAleatorio(int rango) {
-	return rand() % (rango + 1);
+	return rand() % (rango);
 }
 
 void imprimirArreglo(int size, int arreglo[]) {
@@ -200,9 +204,6 @@ int main() {
 				else {
 					cout << "El elemento no esta contenido en el arreglo" << endl;
 				}
-				break;
-			case 4:
-				darAleatorios(5, arreglo, 4);
 				break;
 			default:
 				cout << "Entrada invalida" << endl;

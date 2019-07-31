@@ -7,6 +7,7 @@
 #include <stdbool.h> 
 #include <stdio.h>
 #include <string.h>
+#include <string>
 /**
 * Ordena un arreglo en orden ascendente o descendente
 * Entradas:
