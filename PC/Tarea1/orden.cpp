@@ -90,12 +90,12 @@ int busquedaBinaria(int size, int arreglo[], int buscado) {
 	return -1;
 }
 
-char* darAleatorios(int size, int arreglo[], int n) {
+string darAleatorios(int size, int arreglo[], int n) {
 	//Arreglo de no repetidos
 	int* NoRepetidos = new int[size];
 	int* repetidos = new int[size];
 	
-	char* retorno; 
+	string retorno; 
 		
 	int aleatorio;
 	//Longitud del arreglo de no repetidos
@@ -112,7 +112,9 @@ char* darAleatorios(int size, int arreglo[], int n) {
 				repetidos[i] = NoRepetidos[aleatorio];
 			}
 		}
-		return reinterpret_cast<char*>(repetidos);
+		for(int i = 0; i < repTam; i++) {
+			retorno += std::to_string(repetidos[i]);
+		}
 	}
 	else {
 		cout << "No hay suficientes numeros no repetidos en el arreglo para generar " << n << " numeros aleatorios. Numeros no repetidos: " << repTam << endl;
@@ -130,7 +132,6 @@ int numerosNoRepetidos(int size, int arreglo[], int* repetidos) {
 			j++;
 		}
 	}
-	cout << "\n";
 	return total;
 }
 
@@ -201,7 +202,7 @@ int main() {
 				}
 				break;
 			case 4:
-				
+				darAleatorios(5, arreglo, 4);
 				break;
 			default:
 				cout << "Entrada invalida" << endl;
