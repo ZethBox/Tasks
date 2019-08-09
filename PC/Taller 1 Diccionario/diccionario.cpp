@@ -1,25 +1,20 @@
 #include <iostream>
 #include <string>
+#include <algorithm>
 using namespace std;
 
 /**
- * Inicializa las letras del diccionario de la A a la Z. 
+ * Inicializa las letras del diccionario de la A a la Z.
  * Entradas:
  *  ABC: diccionario donde se guardan las letras
  */
 void inicializarLetras(struct Letra *ABC);
 
 /**
- * Busca una palabra en el diccionario, retorna true si la palabra se encuentra en el 
+ * Busca una palabra en el diccionario, retorna true si la palabra se encuentra en el
  * diccionario, false si la palabra no se encuentra en el.
  */
 bool buscarPalabra(struct Letra *ABC, string palabra);
-
-/**
- * Crea un dialogo preguntando si colocar una nueva palabra en el diciconario.
- * Si el usuario acepta, se llama a la funcion de insertar palabra
- */
-bool preguntarInsertar(struct Letra *ABC, string palabra);
 
 /**
  * Inserta una palabra en el diccionario pasado como parametro
@@ -29,7 +24,7 @@ bool preguntarInsertar(struct Letra *ABC, string palabra);
  *  buscar: indica si se quiere buscar en el diccionario primero antes de agregar la palabra
  *      si no, se asume que la palabra no esta en el diccionario.
  */
-void insertarPalabra(struct Letra *ABC, string palabra, bool buscar);
+void insertarPalabra(struct Letra *ABC, string pal);
 
 /**
  * Imprime un diccionario en consola
@@ -37,8 +32,13 @@ void insertarPalabra(struct Letra *ABC, string palabra, bool buscar);
 void imprimirDiccionario(struct Letra *ABC);
 
 /**
+* Transforma una palabra para ser compatible con el diccionario
+*/
+string transformar(string palabra);
+
+/**
  * El struct de letra representa una letra del diccionario. A cada letra hay asociada la letra
- * en si, un numero que representa la cantidad de palabras que tiene y un arreglo de strings 
+ * en si, un numero que representa la cantidad de palabras que tiene y un arreglo de strings
  * que representa las palabras que tiene.
  */
 struct Letra
@@ -56,10 +56,10 @@ void imprimirDiccionario(struct Letra *ABC)
     {
         letra = (ABC + i);
         cout << letra->letra << ": ";
-        palabras = ABC->palabras;
+        palabras = letra->palabras;
         for (int j = 0; j < letra->noPalabras; j++)
         {
-            cout << palabras++ << " ";
+            cout << palabras[j] << " ";
         }
         cout << endl;
     }
@@ -92,12 +92,12 @@ bool buscarPalabra(struct Letra *ABC, string palabra)
 {
     Letra *p = ABC;
 
-    char primeraLetra = palabra.at(0);
+    char letraActual = palabra.at(0);
     bool encontro = false;
 
     for (int i = 0; i < 27 && !encontro; i++)
     {
-        if (p->letra == primeraLetra)
+        if (p->letra == letraActual)
         {
             encontro = true;
         }
@@ -119,8 +119,7 @@ bool buscarPalabra(struct Letra *ABC, string palabra)
             }
             q++;
         }
-        insertarPalabra(p, palabra, false);
-        
+        return true;
     }
     else
     {
@@ -128,44 +127,106 @@ bool buscarPalabra(struct Letra *ABC, string palabra)
     }
 }
 
-bool preguntarInsertar(struct Letra *ABC, string palabra)
+void insertarPalabra(struct Letra *ABC, string pal)
 {
-    cout << "La palabra '" << palabra << "' No se encuentra en el diccionario, desea insertarla?" << endl;
-    cout << "1. Si" << endl;
-    cout << "2. No" << endl;
-    int input;
-    cin >> input;
-
-    switch (input)
+    string palabra = transformar(pal);
+    Letra *dic = ABC;
+    char letraActual = palabra.at(0);
+    bool encontro = false;
+    for (int i = 0; i < 27 && !encontro; i++)
     {
-    case 1:
-        cout << "La palabra sera insertada" << endl;
-        return true;
-        break;
-    case 2:
-        cout << "La palabra no sera insertada" << endl;
-        return false;
-        break;
-    default:
-        cout << "Entrada invalida..." << endl;
-        return false;
+        if (dic->letra == letraActual)
+        {
+            encontro = true;
+        }
+        else
+        {
+            dic++;
+        }
+    }
+    if (encontro)
+    {
+        if (dic->noPalabras == 0)
+        {
+            dic->palabras = new string[++dic->noPalabras];
+            *(dic->palabras + 0) = palabra;
+        }
+        else
+        {
+            int nP = dic->noPalabras;
+            string *palabras = new string[++dic->noPalabras];
+            for (int i = 0; i < nP; i++)
+            {
+                *(palabras + i) = *(dic->palabras + i);
+            }
+            *(palabras + nP) = palabra;
+            delete (dic->palabras);
+            dic->palabras = palabras;
+        }
     }
 }
 
-void insertarPalabra(struct Letra *ABC, string palabra, bool buscar)
+string transformar(string palabra)
 {
-    int nPalabras = ABC->noPalabras;
-    string *palabras = ABC->palabras;
-    for(int i  = 0; i < nPalabras; i++) {
-        cout << palabras++;
+    string pal = palabra;
+    transform(pal.begin(), pal.end(), pal.begin(), ::toupper);
+    char letraActual;
+    for (int i = 0; i < pal.size(); i++)
+    {
+        letraActual = pal.at(i);
+        if (letraActual == 'Á' || letraActual == 'á')
+        {
+            letraActual = 'A';
+        }
+        else if (letraActual == 'É' || letraActual == 'é')
+        {
+            letraActual = 'E';
+        }
+        else if (letraActual == 'Í' || letraActual == 'í')
+        {
+            letraActual = 'I';
+        }
+        else if (letraActual == 'Ó' || letraActual == 'ó')
+        {
+            letraActual = 'O';
+        }
+        else if (letraActual == 'Ú' || letraActual == 'ú')
+        {
+            letraActual = 'U';
+        }
+        pal.at(i) = letraActual;
     }
+    return pal;
 }
 
 int main()
 {
     Letra *diccionario = new Letra[27];
     inicializarLetras(diccionario);
+    insertarPalabra(diccionario, "Ala");
+    insertarPalabra(diccionario, "Bota");
+    insertarPalabra(diccionario, "Capa");
+    insertarPalabra(diccionario, "Delta");
+    insertarPalabra(diccionario, "Celta");
+    insertarPalabra(diccionario, "Pisques");
+    insertarPalabra(diccionario, "Bárbaro");
+    insertarPalabra(diccionario, "ñero");
+    insertarPalabra(diccionario, "oráculo");
+    insertarPalabra(diccionario, "Elefanto");
+    insertarPalabra(diccionario, "Fuerza");
+    insertarPalabra(diccionario, "Gatillo");
+    insertarPalabra(diccionario, "Hera");
+
+    if(buscarPalabra(diccionario, "HERA")) {
+        cout << "La palabra HERA se encuentra en el diccionario" << endl;
+    }
+
     imprimirDiccionario(diccionario);
-    buscarPalabra(diccionario, "Hola");
+    
+    for(int i = 0; i < 27; i++) {
+        delete(diccionario->palabras);
+        diccionario++;
+    }
     delete (diccionario);
+
 }
