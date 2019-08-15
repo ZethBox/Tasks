@@ -1,3 +1,4 @@
+//Realizado por: Sebastian Molano
 #include <iostream>
 #include <string>
 #include <algorithm>
@@ -88,9 +89,10 @@ void inicializarLetras(struct Letra *ABC)
     }
 }
 
-bool buscarPalabra(struct Letra *ABC, string palabra)
+bool buscarPalabra(struct Letra *ABC, string pal)
 {
     Letra *p = ABC;
+    string palabra = transformar(pal);
 
     char letraActual = palabra.at(0);
     bool encontro = false;
@@ -119,7 +121,7 @@ bool buscarPalabra(struct Letra *ABC, string palabra)
             }
             q++;
         }
-        return true;
+        return false;
     }
     else
     {
@@ -203,30 +205,64 @@ int main()
 {
     Letra *diccionario = new Letra[27];
     inicializarLetras(diccionario);
-    insertarPalabra(diccionario, "Ala");
-    insertarPalabra(diccionario, "Bota");
-    insertarPalabra(diccionario, "Capa");
-    insertarPalabra(diccionario, "Delta");
-    insertarPalabra(diccionario, "Celta");
-    insertarPalabra(diccionario, "Pisques");
-    insertarPalabra(diccionario, "Bárbaro");
-    insertarPalabra(diccionario, "ñero");
-    insertarPalabra(diccionario, "oráculo");
-    insertarPalabra(diccionario, "Elefanto");
-    insertarPalabra(diccionario, "Fuerza");
-    insertarPalabra(diccionario, "Gatillo");
-    insertarPalabra(diccionario, "Hera");
+    string pal;
+    bool corriendo = true;
 
-    if(buscarPalabra(diccionario, "HERA")) {
-        cout << "La palabra HERA se encuentra en el diccionario" << endl;
+    while (corriendo)
+    {
+        cout << "Diccionario: Realizado por: Sebastian Molano" << endl;
+        cout << "1. Buscar una palabra" << endl;
+        cout << "2. Cerrar el programa" << endl;
+        cout << endl;
+        int input;
+        cin >> input;
+        switch (input)
+        {
+        case 1:
+            cout << "Introducir palabra para buscar en el diccionario:" << endl;
+            cin >> pal;
+            if (buscarPalabra(diccionario, pal))
+            {
+                cout << "La palabra " << pal << " se encuentra en el diccionario" << endl;
+            }
+            else
+            {
+                int ins;
+                cout << "La palabra " << pal << " no se encuentra en el diccionario, desea agregarla?" << endl;
+                cout << "1. Insertar palabra. " << endl;
+                cout << "2. No insertar palabra. " << endl;
+                cin >> ins;
+                switch (ins)
+                {
+                case 1:
+                    insertarPalabra(diccionario, pal);
+                    cout << "Se inserto la palabra en el diccionario" << endl;
+                    imprimirDiccionario(diccionario);
+                    break;
+                default:
+                    cout << "La palabra no sera insertada" << endl;
+                    break;
+                }
+            }
+            cout << endl;
+            break;
+        case 2:
+            corriendo = false;
+            break;
+        default:
+            cout << "Entrada invalida..." << endl;
+            corriendo = false;
+            break;
+        }
     }
 
+    cout << "Diccionario final: " << endl;
     imprimirDiccionario(diccionario);
-    
-    for(int i = 0; i < 27; i++) {
-        delete(diccionario->palabras);
+
+    for (int i = 0; i < 27; i++)
+    {
+        delete (diccionario->palabras);
         diccionario++;
     }
     delete (diccionario);
-
 }
